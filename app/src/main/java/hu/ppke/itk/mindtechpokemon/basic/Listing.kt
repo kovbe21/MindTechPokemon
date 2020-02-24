@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import hu.ppke.itk.mindtechpokemon.*
+import hu.ppke.itk.mindtechpokemon.Constants
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.CoroutineContext
@@ -115,8 +115,6 @@ class Listing<T : ModelBase>(
     fun refresh() {
         launch {
             loadFirstPage(true)
-            /*; Log.i("location", "home page refresh") */
-            //; setupPermissions()
         }
     }
 
@@ -129,8 +127,7 @@ class Listing<T : ModelBase>(
 
     private suspend fun loadNextPage(): Boolean = when {
         totalCount == UNKNOWN_ITEM_COUNT -> loadFirstPage(false)
-        itemCount <= totalCount -> loadPage(itemCount,
-            Constants.PAGE_SIZE, false)
+        itemCount <= totalCount -> loadPage(itemCount, Constants.PAGE_SIZE, false)
         else -> false
     }
 

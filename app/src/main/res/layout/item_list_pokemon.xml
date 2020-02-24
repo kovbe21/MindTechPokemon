@@ -12,17 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Pokemon"
-        app:layout_constraintEnd_toStartOf="@id/item_list_pokemon_category"
+        android:fontFamily="sans-serif-black"
+        android:textSize="@dimen/list_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_list_pokemon_category"
-        tools:text="Grass pokemon"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_list_pokemon_name"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

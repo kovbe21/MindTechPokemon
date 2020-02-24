@@ -1,21 +1,19 @@
 package hu.ppke.itk.mindtechpokemon
 
 import androidx.paging.PagedList
-import androidx.preference.PreferenceManager
 import hu.ppke.itk.mindtechpokemon.model.PokeDb
 import hu.ppke.itk.mindtechpokemon.model.PokemonRepository
 import hu.ppke.itk.mindtechpokemon.model.PokemonRepositoryImpl
+import hu.ppke.itk.mindtechpokemon.viewmodels.DetailedViewModel
 import hu.ppke.itk.mindtechpokemon.viewmodels.ListViewModel
 import me.sargunvohra.lib.pokekotlin.client.PokeApi
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 val uiModule = module {
     viewModel { ListViewModel(get()) }
+    viewModel { DetailedViewModel(get()) }
 }
 
 val restModule = module {
@@ -28,7 +26,7 @@ val restModule = module {
 val dataModule = module {
 
 
-    single<PokemonRepository> { PokemonRepositoryImpl(get(),get()) }
+    single<PokemonRepository> { PokemonRepositoryImpl(get(),get(),get()) }
 
 
     factory {
@@ -41,5 +39,7 @@ val dataModule = module {
     }
 
     single { PokeDb.create(get()) }
-    factory { get<PokeDb>().pokemon() }
+    factory { get<PokeDb>().shortPokemon() }
+    factory { get<PokeDb>().detailedPokemon() }
+
 }

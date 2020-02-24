@@ -10,11 +10,11 @@ import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import hu.ppke.itk.mindtechpokemon.Constants
+import hu.ppke.itk.mindtechpokemon.R
 import hu.ppke.itk.mindtechpokemon.basic.ListItem.Companion.VIEW_TYPE_DATA
 import hu.ppke.itk.mindtechpokemon.basic.ListItem.Companion.VIEW_TYPE_EMPTY
 import hu.ppke.itk.mindtechpokemon.basic.ListItem.Companion.VIEW_TYPE_ERROR
 import hu.ppke.itk.mindtechpokemon.basic.ListItem.Companion.VIEW_TYPE_LOADING
-import hu.ppke.itk.mindtechpokemon.R
 import kotlinx.android.synthetic.main.item_empty.view.*
 import kotlinx.android.synthetic.main.item_error.view.*
 import kotlinx.android.synthetic.main.item_loading.view.*
@@ -68,6 +68,7 @@ open class CommonPagedAdapter<D : ModelBase>(
         open fun bind(item: ListItem<D>) = when (item) {
             is ListItem.Data -> bind(itemView, item.data)
             is ListItem.Loading -> {
+                Log.v(TAG , "loading new staffs")
                 itemView.item_loading_message.setText(config.loadingMessage)
                 itemView.item_loading_message.delayedRetry(item.position)
             }
@@ -78,6 +79,7 @@ open class CommonPagedAdapter<D : ModelBase>(
             is ListItem.Error -> {
                 itemView.item_error_message.setText(config.errorMessage)
                 itemView.item_error_retry.setOnClickListener { retry() }
+
             }
         }
     }

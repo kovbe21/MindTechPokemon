@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 
 @Database(
-    entities = [PokemonShortEntity::class],
+    entities = [PokemonShortEntity::class , PokemonDetailedEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -24,6 +23,7 @@ abstract class PokeDb : RoomDatabase() {
         }
     }
 
-    abstract fun pokemon(): PokemonDao
+    abstract fun shortPokemon(): ShortPokemonDao
+    abstract fun detailedPokemon(): DetailedPokemonDao
 
 }

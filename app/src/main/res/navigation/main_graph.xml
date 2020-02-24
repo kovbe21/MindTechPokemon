@@ -23,7 +23,10 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="hu.ppke.itk.mindtechpokemon.view.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument android:name="poke_id"
+            app:argType="integer" />
+    </fragment>
 
 
 </navigation>

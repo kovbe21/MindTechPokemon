@@ -30,7 +30,6 @@ class PokeListAdapter(
 
                 view.setOnClickListener { listener(it, item) }
                 view.item_list_pokemon_name.text = item.name
-                view.item_list_pokemon_category.text = item.category
 
 
 

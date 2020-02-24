@@ -5,5 +5,10 @@
     <string name="no_items">No items</string>
     <string name="loading_error">Loading error…</string>
     <string name="retry">Retry</string>
-    <string name="network_error">Network error occured</string>
+    <string name="network_error">Network error occurred</string>
+    <string name="fragment_detail_weight_string">%d Hektogramm</string>
+    <string name="fragment_detail_height_string">%d dm</string>
+    <string name="fragment_detail_height_weight_string">%d dm and %d Hektogramm</string>
+    <string name="fragment_detail_image_content_description">This is an imageView showing the selected Pokemons</string>
+
 </resources>

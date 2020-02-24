@@ -22,6 +22,7 @@ class PokeListFragment : Fragment(R.layout.fragment_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model.setupNavigation(this)
 
         val adapter = PokeListAdapter(
             model::onClick,
@@ -40,10 +41,13 @@ class PokeListFragment : Fragment(R.layout.fragment_list) {
 
 
         model.networkState.observe(viewLifecycleOwner, Observer {
+
+
             if (it != null && it.status.isCompleted) {
                 fragment_list_swipe_refresh?.isRefreshing = false
                 fragment_list_progress_bar?.visibility = View.GONE
             }
+
             if (it.status == Status.FAILED) {
                 Toast.makeText(context,context?.getString(R.string.network_error),Toast.LENGTH_SHORT).show()
             }

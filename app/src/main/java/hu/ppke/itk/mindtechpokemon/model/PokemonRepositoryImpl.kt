@@ -1,18 +1,21 @@
 package hu.ppke.itk.mindtechpokemon.model
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import hu.ppke.itk.mindtechpokemon.basic.Listing
 import hu.ppke.itk.mindtechpokemon.basic.NetworkState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import me.sargunvohra.lib.pokekotlin.client.PokeApi
 import me.sargunvohra.lib.pokekotlin.model.NamedApiResource
 import kotlin.coroutines.CoroutineContext
 
 class PokemonRepositoryImpl(
-    private val pokemonDao: PokemonDao,
+    private val shortPokemonDao: ShortPokemonDao,
+    private val detailedPokemonDao: DetailedPokemonDao,
     private val api: PokeApi
 ) : PokemonRepository, CoroutineScope {
 
@@ -48,9 +51,9 @@ class PokemonRepositoryImpl(
 
 
         if (delete) {
-            pokemonDao.replaceAll(entities)
+            shortPokemonDao.replaceAll(entities)
         } else {
-            pokemonDao.insert(entities)
+            shortPokemonDao.insert(entities)
         }
         return entities.size
 
@@ -60,11 +63,37 @@ class PokemonRepositoryImpl(
     override fun pokemons(parentContext: CoroutineContext): Listing<PokemonShortEntity> =
         Listing(
             parentContext,
-            pokemonDao.observePokemons(),
+            shortPokemonDao.observePokemons(),
             networkLoadCall = ::load
         )
 
+    override fun loadDetailedPokemon(pokeID: Int): Pair<LiveData<PokemonDetailedEntity> , LiveData<NetworkState>> {
+        val result = MutableLiveData<NetworkState>().apply {
+            value = NetworkState.LOADING
+        }
+
+        launch {
+            if ( detailedPokemonDao.getPokemon(pokeID) == null) {
+                try {
+                    updateDetailedPokemon(pokeID)
+                    result.postValue(NetworkState.LOADED)
+                } catch (e: Exception) {
+                    result.postValue(NetworkState.error(e.message))
+                    Log.d(TAG, "", e)
+                }
+            }
+        }
+        return detailedPokemonDao.observePokemon(pokeID) to result
+    }
 
 
+
+    @Throws(Exception::class)
+    override suspend fun updateDetailedPokemon(id: Int): PokemonDetailedEntity {
+
+        return PokemonDetailedEntity(api.getPokemon(id)).apply {
+            detailedPokemonDao.insert(this)
+        }
+    }
 
 }

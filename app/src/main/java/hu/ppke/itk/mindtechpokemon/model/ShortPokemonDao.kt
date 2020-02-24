@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface PokemonDao {
+interface ShortPokemonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(pokeshort: PokemonShortEntity): Long
 

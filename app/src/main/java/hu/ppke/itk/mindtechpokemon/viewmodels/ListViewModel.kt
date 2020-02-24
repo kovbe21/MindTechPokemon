@@ -1,17 +1,15 @@
 package hu.ppke.itk.mindtechpokemon.viewmodels
 
-import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
+import hu.ppke.itk.mindtechpokemon.basic.NavViewModel
 import hu.ppke.itk.mindtechpokemon.model.PokemonRepository
 import hu.ppke.itk.mindtechpokemon.model.PokemonShortEntity
+import hu.ppke.itk.mindtechpokemon.view.PokeListFragmentDirections
 
 class ListViewModel(
     pokemonRepository: PokemonRepository
-) : ViewModel(), NavController.OnDestinationChangedListener {
+) : NavViewModel() {
 
     private val listing = pokemonRepository.pokemons(viewModelScope.coroutineContext)
 
@@ -28,16 +26,10 @@ class ListViewModel(
 
     fun onClick(view: View, pokemon: PokemonShortEntity) {
 
-        //TODO: navigate to DetailFragment
+        navigateTo(PokeListFragmentDirections.actionListFragmentToDetailFragment(pokemon.id))
+
     }
 
-    override fun onDestinationChanged(
-        controller: NavController,
-        destination: NavDestination,
-        arguments: Bundle?
-    ) {
-       // if (navigationQueue.isNotEmpty()) navigation.postValue(navigationQueue.poll())
-    }
 
 
 
